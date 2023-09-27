@@ -28,7 +28,7 @@ namespace Queues.RabbitMQ
             channel = connection.CreateModel();
         }
 
-        public void DeclareQueue(RabbitExchange exchange)
+        public void DeclareQueue(ExchangeTypes exchange)
         {
             string exchangeName = exchange.ToString();
             string queueName = exchange.ToString();
@@ -40,7 +40,7 @@ namespace Queues.RabbitMQ
             channel.QueueBind(queue: queueName, exchange: exchangeName, routingKey: "");
         }
 
-        public void PublishMessage(RabbitExchange exchange, PayloadDTO message)
+        public void PublishMessage(ExchangeTypes exchange, PayloadDTO message)
         {
             var properties = channel.CreateBasicProperties();
 
@@ -56,6 +56,7 @@ namespace Queues.RabbitMQ
                 DateCreate = DateTime.Now,
                 EventType = message.EventType.ToString(),
                 From = message.From,
+                Exchange = message.Exchange.ToString(),
                 To = message.To,
                 tracking = message.tracking,
             };
@@ -67,7 +68,7 @@ namespace Queues.RabbitMQ
             channel.BasicPublish(exchange: exchangeName, routingKey: "", basicProperties: properties, body: body);
         }
 
-        public string ConsumeMessage(RabbitExchange exchange)
+        public string ConsumeMessage(ExchangeTypes exchange)
         {
             string message = null;
             string trackingId = null;

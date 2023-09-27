@@ -15,9 +15,9 @@ namespace Queues.AbstracionLayer
         //string ConsumeMessage(RabbitExchange exchange, RabbitQueue queue);
         //int GetMessageCount(string queueName);
 
-        void DeclareQueue(RabbitExchange exchange);
-        void PublishMessage(RabbitExchange exchange, PayloadDTO message);
-        string ConsumeMessage(RabbitExchange exchange);
+        void DeclareQueue(ExchangeTypes exchange);
+        void PublishMessage(ExchangeTypes exchange, PayloadDTO message);
+        string ConsumeMessage(ExchangeTypes exchange);
         int GetMessageCount(string queueName);
 
     }

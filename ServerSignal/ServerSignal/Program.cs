@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<QueueServiceBase>();
+builder.Services.AddSingleton<SSEHub>();
+
 
 builder.Services.AddCors(options =>
 {

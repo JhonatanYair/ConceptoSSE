@@ -12,33 +12,15 @@ namespace Queues.AbstracionLayer;
 public class QueueServiceBase : IQueueService
 {
     RabbitMQService messageQueueService;
-
     public event Action<object, string> OnMessageReceived;
-
     private List<Action<object, string>> onMessageReceivedSubscribers = new List<Action<object, string>>();
-
-    // Agregamos un método para permitir la suscripción a eventos.
-    public void SubscribeToMessageReceived(Action<object, string> subscriber)
-    {
-        onMessageReceivedSubscribers.Add(subscriber);
-    }
-
-    // Agregamos un método para cancelar la suscripción a eventos.
-    public void UnsubscribeFromMessageReceived(Action<object, string> subscriber)
-    {
-        onMessageReceivedSubscribers.Remove(subscriber);
-    }
 
     public QueueServiceBase()
     {
         messageQueueService = new RabbitMQService();
-        //messageQueueService.MessageReceived += (sender, message) =>
-        //{
-        //    OnMessageReceived?.Invoke(sender, message);
-        //};
+
         messageQueueService.MessageReceived += (sender, message) =>
         {
-            // Notificar a todos los suscriptores.
             foreach (var subscriber in onMessageReceivedSubscribers)
             {
                 subscriber(sender, message);
@@ -46,17 +28,17 @@ public class QueueServiceBase : IQueueService
         };
     }
 
-    public void DeclareQueue(RabbitExchange exchange)
+    public void DeclareQueue(ExchangeTypes exchange)
     {
         messageQueueService.DeclareQueue(exchange);
     }
 
-    public void PublishMessage(RabbitExchange exchange, PayloadDTO message)
+    public void PublishMessage(ExchangeTypes exchange, PayloadDTO message)
     {
         messageQueueService.PublishMessage(exchange, message);
     }
 
-    public string ConsumeMessage(RabbitExchange exchange)
+    public string ConsumeMessage(ExchangeTypes exchange)
     {
         messageQueueService.MessageReceived += (sender, message) => OnMessageReceived?.Invoke(sender, message);
         var message = messageQueueService.ConsumeMessage(exchange);
@@ -68,5 +50,15 @@ public class QueueServiceBase : IQueueService
         return messageQueueService.GetMessageCount(queueName);
     }
 
+    public void SubscribeToMessageReceived(Action<object, string> subscriber)
+    {
+        onMessageReceivedSubscribers.Add(subscriber);
+        Console.WriteLine();
+    }
+
+    public void UnsubscribeFromMessageReceived(Action<object, string> subscriber)
+    {
+        onMessageReceivedSubscribers.Remove(subscriber);
+    }
 
 }

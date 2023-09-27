@@ -15,7 +15,6 @@ namespace ServerSignal.NotificationSignal
             var hubConnection = new HubConnectionBuilder()
             .WithUrl("https://localhost:7242/SSEHub")
             .Build();
-            Console.WriteLine();
 
             try
             {
@@ -28,18 +27,16 @@ namespace ServerSignal.NotificationSignal
             }
         }
 
-        public async Task NotifyASignalRPrivate(string userId, string mensaje)
+        public async Task NotifyASignalRPrivate(string groupName,string userId, string mensaje)
         {
             var hubConnection = new HubConnectionBuilder()
             .WithUrl("https://localhost:7242/SSEHub")
             .Build();
-            Console.WriteLine();
 
             try
             {
                 await hubConnection.StartAsync();
-                //await hubConnection.InvokeAsync("SendPrivateMessage", userId, mensaje);
-                await hubConnection.InvokeAsync("SendPrivateMessage", userId, mensaje);
+                await hubConnection.InvokeAsync("SendPrivateExchangeMessage", groupName, userId, mensaje);
             }
             catch (Exception ex)
             {

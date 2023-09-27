@@ -7,6 +7,7 @@ docker run -d --name rabbitmq-container -p 5672:5672 -p 15672:15672 rabbitmq:man
 2.El proyecto ProducerMessage es una web api donde contiene endpoints para crear mensajes en las colas, el proyecto tienes 4 endpoints, si deseas producir un mensaje para un usuario en especificio utiliza los endpoints que como nombre tiene User al final y mandas el id del User al endpoint, verifica en el cliente userSSE.html que el idUser sea el mismo.
 
 3.Para levantar el cliente  abre una terminal donde tengas ubicado este proyecto y ejecuta los siguentes comandos en la terminal.
+
 cd ClienteSSE
 npm install -g live-server
 live-server --port=64332

@@ -19,7 +19,7 @@
         const exchange = "CompanyService";
         //Exchange disponibles
         //CompanyService 
-        //ReporteService
+        //ReportService
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl('https://localhost:7242/SSEHub')
@@ -28,7 +28,7 @@
         connection.start()
             .then(() => {                       
                 connection.invoke("JoinGroup", exchange).catch((err) => console.error(err));
-                connection.invoke("SubsMessageToGroupQueue", exchange).catch((err) => console.error(err));
+                connection.invoke("SubsMessageToGroupExchange", exchange).catch((err) => console.error(err));
                 console.log('Conexión establecida.');
                 
                 connection.on('ReceiveMessageGroup', function (eventData) {

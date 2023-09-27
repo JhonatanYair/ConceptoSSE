@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Queues.AbstracionLayer;
+using Queues.AbstracionLayer.Enums;
 
 namespace ProducerMessage.Controllers
 {
@@ -29,10 +30,11 @@ namespace ProducerMessage.Controllers
                 From = "ProduccerMessage",
                 tracking = Guid.NewGuid(),
                 EventType = EventTypes.company_new,
+                Exchange = ExchangeTypes.CompanyService,
                 Data = dataJson
             };
 
-            _queueService.PublishMessage(Queues.AbstracionLayer.Enums.RabbitExchange.CompanyService, messageSave);
+            _queueService.PublishMessage(Queues.AbstracionLayer.Enums.ExchangeTypes.CompanyService, messageSave);
             return Ok("Publicado");
         }
 
@@ -50,11 +52,12 @@ namespace ProducerMessage.Controllers
                 From = "ProduccerMessage",
                 tracking = Guid.NewGuid(),
                 EventType = EventTypes.company_new,
+                Exchange = ExchangeTypes.CompanyService,
                 To = $"{idUser}",
                 Data = dataJson
             };
 
-            _queueService.PublishMessage(Queues.AbstracionLayer.Enums.RabbitExchange.CompanyService, messageSave);
+            _queueService.PublishMessage(Queues.AbstracionLayer.Enums.ExchangeTypes.CompanyService, messageSave);
             return Ok("Publicado");
         }
 

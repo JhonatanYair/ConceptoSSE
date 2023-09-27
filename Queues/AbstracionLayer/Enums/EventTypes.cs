@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Queues.AbstracionLayer.Enums
 {
-    public enum RabbitExchange
+    public enum EventTypes
     {
-
-        ReportService,
-        CompanyService,
-        SessionService
-
+        report_new,
+        company_new
     }
 }
